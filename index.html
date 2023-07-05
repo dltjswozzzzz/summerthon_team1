@@ -1,0 +1,65 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>썸머톤 1팀</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>썸머톤 1팀</h1>
+      <form id="nicknameForm">
+        <label for="nickname">닉네임을 입력하세요</label>
+        <input type="text" id="nickname" />
+        <button type="submit">채팅 입장!</button>
+      </form>
+    </div>
+    <div id="chatArea" style="display: none">
+      <ul id="messageList"></ul>
+      <form id="messageForm">
+        <input type="text" id="messageInput" />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <script>
+      // Your JavaScript code goes here
+    </script>
+
+    <script>
+      const socket = io();
+
+      const nicknameForm = document.getElementById("nicknameForm");
+      const nicknameInput = document.getElementById("nickname");
+      const chatArea = document.getElementById("chatArea");
+      const messageForm = document.getElementById("messageForm");
+      const messageInput = document.getElementById("messageInput");
+      const messageList = document.getElementById("messageList");
+
+      nicknameForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nickname = nicknameInput.value.trim();
+        if (nickname) {
+          socket.emit("join", nickname);
+          nicknameForm.style.display = "none";
+          chatArea.style.display = "block";
+        }
+      });
+
+      messageForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const message = messageInput.value.trim();
+        if (message) {
+          socket.emit("chat message", message);
+          messageInput.value = "";
+        }
+      });
+
+      socket.on("chat message", (msg) => {
+        const li = document.createElement("li");
+        li.textContent = msg;
+        messageList.appendChild(li);
+      });
+    </script>
+  </body>
+</html>
