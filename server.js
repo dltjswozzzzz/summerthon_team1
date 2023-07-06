@@ -1,4 +1,8 @@
-// server.js
+// // server.js
+
+// 방 안에서 채팅 하는 것만 server.js 쓰고
+// 그 외에는 django
+
 const express = require("express");
 const http = require("http");
 const socketIO = require("socket.io");
@@ -21,12 +25,12 @@ io.on("connection", (socket) => {
 
   socket.on("join", (nickname) => {
     users[socket.id] = nickname;
-    io.emit("chat message", `User ${nickname} joined the chat.`);
+    // io.emit("chat message", `User ${nickname} joined the chat.`);
   });
 
   socket.on("disconnect", () => {
     if (users[socket.id]) {
-      io.emit("chat message", `User ${users[socket.id]} left the chat.`);
+      // io.emit("chat message", `User ${users[socket.id]} left the chat.`);
       delete users[socket.id];
     }
   });

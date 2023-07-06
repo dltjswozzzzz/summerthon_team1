@@ -2,12 +2,27 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- <link rel="stylesheet" href="/index.css" /> -->
     <title>썸머톤 1팀</title>
     <script src="/socket.io/socket.io.js"></script>
+    <style>
+      .background {
+        background-color: rgb(255, 243, 115);
+      }
+      #title {
+        display: flex;
+        justify-content: center;
+      }
+      #messageList {
+        background-color: rgb(213, 254, 254);
+      }
+    </style>
   </head>
   <body>
     <div>
-      <h1>썸머톤 1팀</h1>
+      <div class="background" id="title">
+        <h1>썸머톤 1팀</h1>
+      </div>
       <form id="nicknameForm">
         <label for="nickname">닉네임을 입력하세요</label>
         <input type="text" id="nickname" />
@@ -15,7 +30,19 @@
       </form>
     </div>
     <div id="chatArea" style="display: none">
-      <ul id="messageList"></ul>
+      <div
+        class="scrollable-container"
+        id="scrollContainer"
+        style="
+          display: flex;
+          flex-direction: column-reverse;
+          overflow: scroll;
+          width: 30rem;
+          height: 15rem;
+        "
+      >
+        <ul class="chat_ul" id="messageList"></ul>
+      </div>
       <form id="messageForm">
         <input type="text" id="messageInput" />
         <button type="submit">Send</button>
@@ -60,6 +87,26 @@
         li.textContent = msg;
         messageList.appendChild(li);
       });
+
+      //
+
+      // Function to automatically scroll to the bottom of the container
+      function scrollToBottom() {
+        const scrollContainer = document.getElementById("scrollContainer");
+        scrollContainer.scrollTop = scrollContainer.scrollHeight;
+      }
+
+      // Add a new <li> element to the list
+      function addNewListItem() {
+        const list = document.getElementById("list");
+        const newItem = document.createElement("li");
+        newItem.textContent = "New Item";
+
+        list.appendChild(newItem);
+
+        // Scroll to the bottom after adding the new <li> element
+        scrollToBottom();
+      }
     </script>
   </body>
 </html>
